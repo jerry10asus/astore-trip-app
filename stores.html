@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="AStore Trip" />
+  <title>AStore Trip - 門市</title>
+  <link rel="icon" type="image/png" href="./assets/app_icon.png" />
+  <link rel="apple-touch-icon" href="./assets/app_icon.png" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/glass.css" />
+  <link rel="stylesheet" href="./css/layout.css" />
+  <link rel="stylesheet" href="./css/pwa-update.css" />
+  <link rel="stylesheet" href="./css/pwa-install.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <h1 class="page-title">門市</h1>
+    <div class="header-actions">
+      <button class="filter-btn" id="filterBtn" aria-label="篩選">
+        <span class="filter-text">所有門市</span>
+        <img src="./assets/icon/filter.svg" alt="篩選" class="filter-icon" />
+      </button>
+      <!-- 下拉選單 -->
+      <div class="filter-dropdown" id="filterDropdown">
+        <div class="dropdown-item active" data-region="all">
+          <span>所有門市</span>
+          <span class="check-icon">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="tw">
+          <span>台灣</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="au">
+          <span>澳洲</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="at">
+          <span>奧地利</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="be">
+          <span>比利時</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="br">
+          <span>巴西</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="ca">
+          <span>加拿大</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="cn">
+          <span>中國大陸</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="fr">
+          <span>法國</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="de">
+          <span>德國</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="hk">
+          <span>香港</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="in">
+          <span>印度</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="it">
+          <span>義大利</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="jp">
+          <span>日本</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="mo">
+          <span>澳門</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="my">
+          <span>馬來西亞</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="mx">
+          <span>墨西哥</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="nl">
+          <span>荷蘭</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="sg">
+          <span>新加坡</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="kr">
+          <span>南韓</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="es">
+          <span>西班牙</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="se">
+          <span>瑞典</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="ch">
+          <span>瑞士</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="th">
+          <span>泰國</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="tr">
+          <span>土耳其</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="ae">
+          <span>阿拉伯聯合大公國</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="us">
+          <span>美國</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+        <div class="dropdown-item" data-region="gb">
+          <span>英國</span>
+          <span class="check-icon" style="display: none;">✓</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="stores-main">
+    <!-- 搜尋欄 -->
+    <div class="search-container">
+      <div class="search-bar liquid-glass">
+        <img src="./assets/icon/search.svg" alt="搜尋" class="search-icon" />
+        <input 
+          type="text" 
+          id="storeSearch" 
+          class="search-input" 
+          placeholder="搜尋門市名稱、城市"
+        />
+      </div>
+    </div>
+
+    <!-- 商店列表 -->
+    <div class="stores-list-container">
+      <!-- Loading 狀態 -->
+      <div class="stores-loading" id="storesLoading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">載入中...</div>
+      </div>
+      <div class="stores-list" id="storesList" style="display: none;">
+        <!-- 商店卡片將由 JavaScript 動態生成 -->
+      </div>
+    </div>
+  </main>
+
+  <!-- 底部導覽列 -->
+  <nav class="bottom-nav liquid-glass">
+    <a href="./index.html" class="nav-item">
+      <span class="nav-icon"><img src="./assets/icon/home.svg" alt="首頁" /></span>
+      <span class="nav-label">首頁</span>
+    </a>
+    <a href="./stores.html" class="nav-item active">
+      <span class="nav-icon"><img src="./assets/icon/apple.svg" alt="門市" /></span>
+      <span class="nav-label">門市</span>
+    </a>
+    <a href="./favorites.html" class="nav-item">
+      <span class="nav-icon"><img src="./assets/icon/favorites.svg" alt="收藏" /></span>
+      <span class="nav-label">收藏</span>
+    </a>
+  </nav>
+
+  <script src="./js/data.js"></script>
+  <script src="./js/stores.js"></script>
+  <script src="./js/pwa-update.js"></script>
+  <script src="./js/pwa-install.js"></script>
+  <script>
+    // 初始化頁面
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (window.StoresPage) {
+        await window.StoresPage.init();
+      }
+    });
+
+    // 篩選下拉選單功能
+    const filterBtn = document.getElementById('filterBtn');
+    const filterDropdown = document.getElementById('filterDropdown');
+    const filterText = filterBtn.querySelector('.filter-text');
+
+    filterBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      filterDropdown.classList.toggle('show');
+    });
+
+    // 點擊外部關閉下拉選單
+    document.addEventListener('click', (e) => {
+      if (!filterBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+        filterDropdown.classList.remove('show');
+      }
+    });
+
+    // 選擇地區
+    const dropdownItems = filterDropdown.querySelectorAll('.dropdown-item');
+    dropdownItems.forEach(item => {
+      item.addEventListener('click', () => {
+        // 移除所有 active 类和勾勾显示
+        dropdownItems.forEach(i => {
+          i.classList.remove('active');
+          const checkIcon = i.querySelector('.check-icon');
+          if (checkIcon) checkIcon.style.display = 'none';
+        });
+        
+        // 添加 active 类到选中的项
+        item.classList.add('active');
+        const checkIcon = item.querySelector('.check-icon');
+        if (checkIcon) checkIcon.style.display = 'inline';
+        
+        const region = item.getAttribute('data-region');
+        const itemText = item.querySelector('span:first-child').textContent.trim();
+        filterText.textContent = itemText;
+        filterDropdown.classList.remove('show');
+        
+        // 觸發篩選
+        if (window.StoresPage && window.StoresPage.filterByRegion) {
+          window.StoresPage.filterByRegion(region);
+        }
+      });
+    });
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker registered:', reg))
+          .catch(err => console.error('Service Worker registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>

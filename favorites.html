@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="AStore Trip" />
+  <title>AStore Trip - 收藏</title>
+  <link rel="icon" type="image/png" href="./assets/app_icon.png" />
+  <link rel="apple-touch-icon" href="./assets/app_icon.png" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/glass.css" />
+  <link rel="stylesheet" href="./css/layout.css" />
+  <link rel="stylesheet" href="./css/pwa-update.css" />
+  <link rel="stylesheet" href="./css/pwa-install.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <h1 class="page-title">收藏</h1>
+  </header>
+
+  <main class="favorites-main">
+    <!-- 收藏門市列表 -->
+    <div class="favorites-grid" id="favoritesGrid">
+      <!-- 門市卡片將由 JavaScript 動態生成 -->
+    </div>
+  </main>
+
+  <!-- 底部導覽列 -->
+  <nav class="bottom-nav liquid-glass">
+    <a href="./index.html" class="nav-item">
+      <span class="nav-icon"><img src="./assets/icon/home.svg" alt="首頁" /></span>
+      <span class="nav-label">首頁</span>
+    </a>
+    <a href="./stores.html" class="nav-item">
+      <span class="nav-icon"><img src="./assets/icon/apple.svg" alt="門市" /></span>
+      <span class="nav-label">門市</span>
+    </a>
+    <a href="./favorites.html" class="nav-item active">
+      <span class="nav-icon"><img src="./assets/icon/favorites.svg" alt="收藏" /></span>
+      <span class="nav-label">收藏</span>
+    </a>
+  </nav>
+
+  <script src="./js/data.js"></script>
+  <script src="./js/favorites.js"></script>
+  <script src="./js/pwa-update.js"></script>
+  <script src="./js/pwa-install.js"></script>
+  <script>
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker registered:', reg))
+          .catch(err => console.error('Service Worker registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>

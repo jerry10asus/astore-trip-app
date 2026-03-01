@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="AStore Trip" />
+  <title>AStore Trip - 關於</title>
+  <link rel="icon" type="image/png" href="./assets/app_icon.png" />
+  <link rel="apple-touch-icon" href="./assets/app_icon.png" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/glass.css" />
+  <link rel="stylesheet" href="./css/layout.css" />
+  <link rel="stylesheet" href="./css/pwa-update.css" />
+  <link rel="stylesheet" href="./css/pwa-install.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <a class="back-btn" href="./index.html" aria-label="返回">
+      <img src="./assets/icon/arrow_left.svg" alt="返回" class="back-icon" />
+    </a>
+    <h1 class="page-title" style="flex: 1; text-align: center;">關於</h1>
+    <div style="width: 40px;"></div> <!-- 占位，保持标题居中 -->
+  </header>
+
+  <main class="about-main">
+    <!-- 關於 AStore Trip -->
+    <section class="about-section">
+      <h2 class="about-title">關於 AStore Trip</h2>
+      <div class="about-content">
+        <p>AStore Trip 是一款專為熱愛 Apple 美學與設計的人打造的旅遊收藏 APP。</p>
+        <p>我開發這款 APP，是因為我相信，除了產品本身，每一間 Apple 直營門市都是最能體現蘋果美學的空間設計。</p>
+        <p>身為設計師，我總喜歡在旅行途中造訪不同城市的 Apple Store，欣賞它們的建築語言、材質細節與城市氛圍。每一間店，都像是蘋果與當地文化對話的場域，讓人親身感受「設計即體驗」的精神。AStore Trip 希望成為喜歡 Apple 設計與空間美學的你的旅伴。</p>
+        <p>透過這款 APP，你可以：</p>
+        <ul class="about-features">
+          <li> 瀏覽全球 Apple 直營門市清單，快速查看每間門市的名稱、所在地區、建築介紹與營業時間</li>
+          <li>❤️ 收藏你造訪或想造訪的門市，打造屬於自己的 Apple 旅遊足跡</li>
+          <li>🏅 累積造訪成就與勳章，記錄你走過的每間 Apple Store</li>
+        </ul>
+        <p>AStore Trip 不僅是工具，更是一次與設計、旅行與 Apple 精神的連結。</p>
+      </div>
+    </section>
+
+    <!-- 外部連結 -->
+    <section class="about-links">
+      <a href="https://instagram.com/jerry10jerry10" target="_blank" rel="noopener" class="link-card">
+        <div class="link-icon">🙋🏻‍♂️</div>
+        <div class="link-content">
+          <h3 class="link-title">在 instagram 認識我</h3>
+        </div>
+        <div class="link-arrow">›</div>
+      </a>
+      <a href="https://instagram.com/astore_trip" target="_blank" rel="noopener" class="link-card" style="display: none;">
+        <div class="link-icon">📱</div>
+        <div class="link-content">
+          <h3 class="link-title">在 instagram 追蹤 AStore Trip</h3>
+        </div>
+        <div class="link-arrow">›</div>
+      </a>
+      <a href="https://buymeacoffee.com/jerryjhang" target="_blank" rel="noopener" class="link-card">
+        <div class="link-icon">☕</div>
+        <div class="link-content">
+          <h3 class="link-title">buy me a coffee</h3>
+        </div>
+        <div class="link-arrow">›</div>
+      </a>
+      <a href="https://forms.gle/gA3AZcMZrPBkQu5i9" target="_blank" rel="noopener" class="link-card">
+        <div class="link-icon">💬</div>
+        <div class="link-content">
+          <h3 class="link-title">提供你的意見</h3>
+        </div>
+        <div class="link-arrow">›</div>
+      </a>
+    </section>
+  </main>
+
+  <!-- 版本號 -->
+  <div class="app-version" id="appVersion"></div>
+
+  <script src="./js/data.js"></script>
+  <script src="./js/pwa-update.js"></script>
+  <script src="./js/pwa-install.js"></script>
+  <script>
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker registered:', reg))
+          .catch(err => console.error('Service Worker registration failed:', err));
+      });
+    }
+
+    // 顯示版本號
+    async function displayVersion() {
+      try {
+        const response = await fetch('./sw.js');
+        const text = await response.text();
+        const versionMatch = text.match(/const APP_VERSION = ['"]([^'"]+)['"]/);
+        if (versionMatch && versionMatch[1]) {
+          const versionEl = document.getElementById('appVersion');
+          if (versionEl) {
+            versionEl.textContent = versionMatch[1];
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load version:', error);
+        // 如果無法讀取，使用默認值
+        const versionEl = document.getElementById('appVersion');
+        if (versionEl) {
+          versionEl.textContent = 'v0.1.11';
+        }
+      }
+    }
+
+    displayVersion();
+  </script>
+</body>
+</html>
