@@ -18,7 +18,20 @@
       return false;
     }
 
-    // 2. 检查是否在 24 小时内关闭过
+    // 2. 桌面设备（宽度 >= 1024px）
+    if (window.innerWidth >= 1024) {
+      console.log('桌面设备，不显示安装提示');
+      return false;
+    }
+
+    // 3. 社群／通訊 App 內建瀏覽器：每次進入都應顯示「改用外部瀏覽器」引導，不受 24 小時關閉記錄影響
+    // （若在一般瀏覽器關過 PWA 提示，也不應阻擋 IG 等內嵌瀏覽器再次顯示）
+    if (isSocialInAppBrowser()) {
+      console.log('社群 App 內建瀏覽器，顯示外部瀏覽器引導');
+      return true;
+    }
+
+    // 4. 一般瀏覽器：检查是否在 24 小时内关闭过
     const dismissedAt = localStorage.getItem('installPromptDismissedAt');
     if (dismissedAt) {
       const dismissedTime = parseInt(dismissedAt, 10);
@@ -29,12 +42,6 @@
         console.log('24 小时内已关闭过，不显示安装提示');
         return false;
       }
-    }
-
-    // 3. 检查是否为桌面设备（宽度 >= 1024px）
-    if (window.innerWidth >= 1024) {
-      console.log('桌面设备，不显示安装提示');
-      return false;
     }
 
     return true;
@@ -164,8 +171,10 @@
 
   /**
    * 创建 Bottom Sheet HTML
+   * @param {object} content - 標題與步驟
+   * @param {string} installType - 例如 'in-app-social'，用於關閉時是否寫入 24h 記錄
    */
-  function createInstallBottomSheet(content) {
+  function createInstallBottomSheet(content, installType) {
     // 检查是否已存在
     if (document.getElementById('pwa-install-sheet')) {
       return;
@@ -174,6 +183,9 @@
     const sheet = document.createElement('div');
     sheet.id = 'pwa-install-sheet';
     sheet.className = 'pwa-install-sheet';
+    if (installType) {
+      sheet.dataset.installType = installType;
+    }
     
     const stepsHTML = content.steps.map((step, index) => {
       // 处理包含图标的步骤文本
@@ -213,7 +225,11 @@
 
     const closeSheet = () => {
       hideInstallSheet();
-      // 记录关闭时间
+      const sheetEl = document.getElementById('pwa-install-sheet');
+      // 社群內建瀏覽器引導：關閉不寫入 24h，避免阻擋下次從 IG 等開啟時再次顯示
+      if (sheetEl && sheetEl.dataset.installType === 'in-app-social') {
+        return;
+      }
       localStorage.setItem('installPromptDismissedAt', Date.now().toString());
     };
 
@@ -265,7 +281,7 @@
     const content = getInstallContent(browserType);
 
     // 创建并显示 Bottom Sheet
-    createInstallBottomSheet(content);
+    createInstallBottomSheet(content, browserType);
     
     // 延迟显示，确保 DOM 已渲染
     setTimeout(() => {
