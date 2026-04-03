@@ -41,6 +41,25 @@
   }
 
   /**
+   * 偵測是否為社群／通訊 App 內建瀏覽器（無法直接安裝 PWA，需改為外部瀏覽器）
+   * 涵蓋 Instagram、Threads、Facebook 家族、LINE、TikTok 等常見情境
+   */
+  function isSocialInAppBrowser() {
+    const ua = navigator.userAgent || '';
+
+    if (/Instagram/i.test(ua)) return true;
+    if (/Threads/i.test(ua)) return true;
+    if (/FBAN|FBAV|FB_IAB|FBIOS/i.test(ua)) return true;
+    if (/Line\//i.test(ua)) return true;
+    if (/TikTok/i.test(ua) || /musical_ly/i.test(ua)) return true;
+    if (/Snapchat/i.test(ua)) return true;
+    if (/WhatsApp/i.test(ua)) return true;
+    if (/\bTwitter\b/i.test(ua)) return true;
+
+    return false;
+  }
+
+  /**
    * 检测浏览器类型
    */
   function detectBrowser() {
@@ -93,6 +112,13 @@
    */
   function getInstallContent(browserType) {
     const contents = {
+      'in-app-social': {
+        title: '請改用外部瀏覽器開啟。',
+        steps: [
+          '點擊右上角的「⋯」或「⋮」',
+          '選擇「使用瀏覽器中開啟」'
+        ]
+      },
       'ios-safari-new': {
         title: '加入主畫面以獲得更好的使用體驗。',
         steps: [
@@ -231,9 +257,9 @@
       return;
     }
 
-    // 检测浏览器类型
-    const browserType = detectBrowser();
-    console.log('检测到浏览器类型:', browserType);
+    // 社群 App 內建瀏覽器優先：引導改用外部瀏覽器
+    const browserType = isSocialInAppBrowser() ? 'in-app-social' : detectBrowser();
+    console.log('PWA 安裝指引類型:', browserType);
 
     // 获取对应文案
     const content = getInstallContent(browserType);
