@@ -55,7 +55,11 @@
     const ua = navigator.userAgent || '';
 
     if (/Instagram/i.test(ua)) return true;
+    // Threads App 內建瀏覽器 UA 含 Meta 代號 Barcelona，通常不含字串 "Threads"
+    if (/Barcelona/i.test(ua)) return true;
     if (/Threads/i.test(ua)) return true;
+    // Meta 內嵌瀏覽器常見標記（與 Barcelona 並見於 Threads UA，如 IABMV/1）
+    if (/\bIABMV\b/i.test(ua)) return true;
     if (/FBAN|FBAV|FB_IAB|FBIOS/i.test(ua)) return true;
     if (/Line\//i.test(ua)) return true;
     if (/TikTok/i.test(ua) || /musical_ly/i.test(ua)) return true;
